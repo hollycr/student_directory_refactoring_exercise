@@ -53,17 +53,6 @@ def load_students():
         for row in reader:
             push_to_array(firstname=row[0], surname=row[1], birthplace=row[2], cohort=row[3])
 
-def initial_load_students():
-    filename = sys.argv[1] if len(sys.argv) > 1 else "students.csv"
-    try:
-        with open(filename, "r") as file:
-            reader = csv.reader(file)
-            for row in reader:
-                push_to_array(firstname=row[0], surname=row[1], birthplace=row[2], cohort=row[3])
-        print(f"Loaded {len(students)} from {filename}")
-    except FileNotFoundError:
-        print(f"No file was given on startup so loaded \"students.csv\" by default.")
-
 def prompt(output):
     if not output:
         enter = input("Hit enter to exit or \"-\" to enter (a)nother student.\n")
@@ -142,6 +131,4 @@ def print_students_list():
 def print_footer():
     print(f"Overall, we have {len(students)} great students.")
 
-initial_load_students()
-
-interactive_menu()
+interactive_menu() # first thing to happen
