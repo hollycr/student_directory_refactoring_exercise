@@ -1,5 +1,15 @@
 # Refactor an Implementation of Student Directory
 
+## Learn to
+* Identify poor quality code
+* Consider possible refactors using OO relationships
+* Implement refactors using OO relationships
+
+## Useful resources
+https://refactoring.guru/
+
+## Intro
+
 In `student_directory.py` you'll find the code for a program manages a list of students. Do `python3 student_directory.py` to play with it a little.
 
 As you'll see, the program is composed entirely of 'top level' functions. It works, but it's a bit of a mess. Your job is to tidy things up by breaking the code up into some classes.
