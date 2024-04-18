@@ -101,24 +101,24 @@ class Interface():
                 student_body.add_student(student)
         Interface.feedback_message("data loaded")
 
+    @staticmethod
+    def run_programme():
+        student_body = StudentBody()
+        actions = {
+            "1": Interface.add_students_to_body,
+            "2": Interface.show_students,
+            "3": Interface.save_students,
+            "4": Interface.load_students,
+            "9": sys.exit, # this will cause the program to terminate
+        }
+        while True:
+            selection = Interface.selection_menu()
+            if selection in actions:
+                actions[selection](student_body)
+            else: 
+                print("I don't know what you mean. Try again!")
 
-def run_programme():
-    student_body = StudentBody()
-    actions = {
-        "1": Interface.add_students_to_body,
-        "2": Interface.show_students,
-        "3": Interface.save_students,
-        "4": Interface.load_students,
-        "9": sys.exit, # this will cause the program to terminate
-    }
-    while True:
-        selection = Interface.selection_menu()
-        if selection in actions:
-            actions[selection](student_body)
-        else: 
-            print("I don't know what you mean. Try again!")
-
-run_programme() # first thing to happen
+Interface.run_programme() # first thing to happen
 
 # def run_programme():
 #     student_body = StudentBody()
