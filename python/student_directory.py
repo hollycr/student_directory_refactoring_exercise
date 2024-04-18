@@ -104,19 +104,34 @@ class Interface():
 
 def run_programme():
     student_body = StudentBody()
+    actions = {
+        "1": Interface.add_students_to_body,
+        "2": Interface.show_students,
+        "3": Interface.save_students,
+        "4": Interface.load_students,
+        "9": sys.exit, # this will cause the program to terminate
+        "else": lambda: print("I don't know what you mean. Try again!")
+
+    }
     while True:
         selection = Interface.selection_menu()
-        if selection == "1":
-            Interface.add_students_to_body(student_body)
-        elif selection == "2":
-            Interface.show_students(student_body)
-        elif selection == "3":
-            Interface.save_students(student_body)
-        elif selection == "4":
-            Interface.load_students(student_body)
-        elif selection == "9":
-            sys.exit()  # this will cause the program to terminate
-        else:
-            print("I don't know what you mean. Try again!")
+        actions[selection](student_body)
 
 run_programme() # first thing to happen
+
+# def run_programme():
+#     student_body = StudentBody()
+#     while True:
+#         selection = Interface.selection_menu()
+#         if selection == "1":
+#             Interface.add_students_to_body(student_body)
+#         elif selection == "2":
+#             Interface.show_students(student_body)
+#         elif selection == "3":
+#             Interface.save_students(student_body)
+#         elif selection == "4":
+#             Interface.load_students(student_body)
+#         elif selection == "9":
+#             sys.exit()  # this will cause the program to terminate
+#         else:
+#             print("I don't know what you mean. Try again!")
