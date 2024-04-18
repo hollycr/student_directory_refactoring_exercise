@@ -110,12 +110,13 @@ def run_programme():
         "3": Interface.save_students,
         "4": Interface.load_students,
         "9": sys.exit, # this will cause the program to terminate
-        "else": lambda: print("I don't know what you mean. Try again!")
-
     }
     while True:
         selection = Interface.selection_menu()
-        actions[selection](student_body)
+        if selection in actions:
+            actions[selection](student_body)
+        else: 
+            print("I don't know what you mean. Try again!")
 
 run_programme() # first thing to happen
 
