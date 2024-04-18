@@ -57,45 +57,49 @@ class Interface():
             return None
         return Student(firstname, surname, birthplace, cohort)
     
-    def add_students_to_body(self, student_body):
+    @staticmethod 
+    def add_students_to_body(student_body):
         while True:
             enter = input("Hit enter to exit or \"-\" to enter (a)nother student.\n")
             if enter:
-                new_student = self.get_student_data()
+                new_student = Interface.get_student_data()
                 if new_student:
                     student_body.add_student(new_student)
                     print(f"Now we have {student_body.current_num()} student." if student_body.current_num() == 1 else f"Now we have {student_body.current_num()} students.")
             else:
                 break 
-        self.feedback_message("data entered")
+        Interface.feedback_message("data entered")
 
-    def show_students(self, student_body):
+    @staticmethod
+    def show_students(student_body):
         if student_body.current_num() > 0:
             print("\nThe students of Villains Academy")
             print("-------------")
             for index, student in enumerate(student_body.list):
                 print(f"{index + 1}. {student.firstname} ({student.cohort} cohort)")
             print(f"Overall, we have {student_body.current_num()} great students.")
-            self.feedback_message("data printed")
+            Interface.feedback_message("data printed")
         else:
             print("There are currently no students in the system to display.")
 
-    def save_students(self, student_body):
+    @staticmethod
+    def save_students(student_body):
         filename = input("Please enter the filename (inc. extension) in which you'd like to save the data: ")
         with open(filename, "w", newline="") as file:
             writer = csv.writer(file)
-            for student in student_body:
+            for student in student_body.list:
                 writer.writerow([student.firstname, student.surname, student.birthplace, student.cohort])
-        self.feedback_message("data saved")
+        Interface.feedback_message("data saved")
 
-    def load_students(self, student_body):
+    @staticmethod
+    def load_students(student_body):
         filename = input("Please enter the filename (inc. extension) that you'd like to load: ")
         with open(filename, "r") as file:
             reader = csv.reader(file)
             for row in reader:
                 student = Student(firstname=row[0], surname=row[1], birthplace=row[2], cohort=row[3])
                 student_body.add_student(student)
-        self.feedback_message("data loaded")
+        Interface.feedback_message("data loaded")
 
 
 def run_programme():
