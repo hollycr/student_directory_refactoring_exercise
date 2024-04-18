@@ -7,9 +7,37 @@ class Student():
         self.surname = surname
         self.birthplace = birthplace
         self.cohort = cohort
+
+class StudentBody():
+    def __init__(self):
+        self.list = []
     
-    @classmethod
-    def from_user_input(cls):
+    def current_num(self):
+        return len(self.list)
+    
+    def add_student(self, student):
+        self.list.append(student)   
+
+class Interface():
+    def __init__(self):
+        pass
+
+    @staticmethod
+    def selection_menu():
+        print("1. Input the students")
+        print("2. Show the students")
+        print("3. Save the list to a csv file")
+        print("4. Load the list from a csv file")
+        print("9. Exit")
+        selection = input().strip()
+        return selection
+    
+    @staticmethod
+    def feedback_message(operation):
+        print("\v" + operation.upper() + " SUCCESSFULLY!\v")
+
+    @staticmethod 
+    def get_student_data():
         print("Please enter the first name, last name, birthplace and cohort of each student.")
 
         firstname = input("Enter first name: ")
@@ -27,80 +55,64 @@ class Student():
         cohort = input("Enter cohort: ")
         if cohort == "":
             return None
-        
-        return cls(firstname, surname, birthplace, cohort)
-
-class StudentBody():
-    def __init__(self):
-        self.list = []
+        return Student(firstname, surname, birthplace, cohort)
     
-    def current_num(self):
-        return len(self.list)
-    
-    def add_students(self):
+    def add_students_to_body(self, student_body):
         while True:
             enter = input("Hit enter to exit or \"-\" to enter (a)nother student.\n")
             if enter:
-                new_student = Student.from_user_input()
+                new_student = self.get_student_data()
                 if new_student:
-                    self.list.append(new_student)
+                    student_body.add_student(new_student)
                     print(f"Now we have {student_body.current_num()} student." if student_body.current_num() == 1 else f"Now we have {student_body.current_num()} students.")
             else:
-                break    
-    
-    def show_students(self):
-        print("\nThe students of Villains Academy")
-        print("-------------")
-        for index, student in enumerate(student_body.list):
-            print(f"{index + 1}. {student.firstname} ({student.cohort} cohort)")
-        print(f"Overall, we have {student_body.current_num()} great students.")
+                break 
+        self.feedback_message("data entered")
 
-    def save_students(self):
+    def show_students(self, student_body):
+        if student_body.current_num() > 0:
+            print("\nThe students of Villains Academy")
+            print("-------------")
+            for index, student in enumerate(student_body.list):
+                print(f"{index + 1}. {student.firstname} ({student.cohort} cohort)")
+            print(f"Overall, we have {student_body.current_num()} great students.")
+            self.feedback_message("data printed")
+        else:
+            print("There are currently no students in the system to display.")
+
+    def save_students(self, student_body):
         filename = input("Please enter the filename (inc. extension) in which you'd like to save the data: ")
         with open(filename, "w", newline="") as file:
             writer = csv.writer(file)
-            for student in self.list:
+            for student in student_body:
                 writer.writerow([student.firstname, student.surname, student.birthplace, student.cohort])
+        self.feedback_message("data saved")
 
-    def load_students(self):
+    def load_students(self, student_body):
         filename = input("Please enter the filename (inc. extension) that you'd like to load: ")
         with open(filename, "r") as file:
             reader = csv.reader(file)
             for row in reader:
                 student = Student(firstname=row[0], surname=row[1], birthplace=row[2], cohort=row[3])
-                self.list.append(student)
+                student_body.add_student(student)
+        self.feedback_message("data loaded")
 
-student_body = StudentBody()
 
-def interactive_menu():
+def run_programme():
+    student_body = StudentBody()
     while True:
-        print("1. Input the students")
-        print("2. Show the students")
-        print("3. Save the list to a csv file")
-        print("4. Load the list from a csv file")
-        print("9. Exit")
-        selection = input().strip()
+        selection = Interface.selection_menu()
         if selection == "1":
-            student_body.add_students()
-            feedback_message("data entered")
+            Interface.add_students_to_body(student_body)
         elif selection == "2":
-            if student_body.current_num() > 0:
-                student_body.show_students()
-                feedback_message("data printed")
-            else:
-                print("There are currently no students in the system to display.")
+            Interface.show_students(student_body)
         elif selection == "3":
-            student_body.save_students()
-            feedback_message("data saved")
+            Interface.save_students(student_body)
         elif selection == "4":
-            student_body.load_students()
-            feedback_message("data loaded")
+            Interface.load_students(student_body)
         elif selection == "9":
             sys.exit()  # this will cause the program to terminate
         else:
             print("I don't know what you mean. Try again!")
 
-def feedback_message(operation):
-    print("\v" + operation.upper() + " SUCCESSFULLY!\v")
-
-interactive_menu() # first thing to happen
+run_programme() # first thing to happen
